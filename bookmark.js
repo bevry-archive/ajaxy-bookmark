@@ -1,0 +1,1 @@
+javascript:var%20e=document.createElement('script');e.setAttribute('language','javascript');e.setAttribute('src','http://github.com/balupton/ajaxy-bookmark/raw/master/script.js');document.body.appendChild(e);void(0);
