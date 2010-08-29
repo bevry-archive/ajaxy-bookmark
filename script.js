@@ -81,7 +81,7 @@
 				},
 				'page': {
 					selector: '.ajaxy-page',
-					matches: /.?/, // match all
+					matches: /./, // match all
 					request: function(){
 						// Hide Content
 						$content.stop(true,true).fadeOut(400);
