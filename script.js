@@ -11,9 +11,9 @@
 		var contentId = false;
 		while ( !contentId ) {
 			contentId = prompt(
-				"Ajaxy needs to know what is the ID of the Element which contains the content for all your pages.\n\
-				\n\
-				For example if you have <div id=\"page\">Your page's content is in here</div>, then \'page\' is the ID we need to know.'"
+				"Ajaxy needs to know what is the ID of the Element which contains the content for all your pages.\n"+
+				"\n"+
+				"For example if you have <div id=\"page\">Your page's content is in here</div>, then \'page\' is the ID we need to know.'"
 			);
 			if ( !contentId ) {
 				break;
@@ -83,8 +83,6 @@
 					selector: '.ajaxy-page',
 					matches: /./, // match all
 					request: function(){
-						// Adjust Menu
-						$menu.children('.active').removeClass('active');
 						// Hide Content
 						$content.stop(true,true).fadeOut(400);
 						// Return true
