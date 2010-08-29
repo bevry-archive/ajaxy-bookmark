@@ -156,7 +156,7 @@
 						// Insert
 						var e = document.createElement('script');
 						e.setAttribute('language','javascript');
-						e.setAttribute('src','http://github.com/balupton/jquery-ajaxy/raw/v1.5/scripts/jquery.ajaxy.js');
+						e.setAttribute('src','http://github.com/balupton/jquery-ajaxy/raw/dev/scripts/jquery.ajaxy.js');
 						document.body.appendChild(e);
 						delete e;
 					}
