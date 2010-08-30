@@ -166,7 +166,10 @@
 						$content.stop(true,true).html(content);
 						
 						// Display Content
-						$content.delay(100).fadeIn(400,function(){
+						if ( typeof jQuery.prototype.delay !== 'undefined' ) {
+							$content.delay(100);
+						}
+						$content.fadeIn(400,function(){
 							Action.documentReady($content);
 						});
 						
