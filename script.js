@@ -18,6 +18,9 @@
 			$menu = null,
 			contentId = null,
 			$content = null;
+			
+		// Insert Styles
+		$body.append('<style type="text/css">body.loading{cursor:wait;}</style>');
 		
 		// Fetch the contentId
 		while ( !contentId ) {
