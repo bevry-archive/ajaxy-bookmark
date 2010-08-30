@@ -143,7 +143,9 @@
 						$content.stop(true,true).fadeOut(400);
 						
 						// Adjust Menu
-						$menu.find('li.active').removeClass('active');
+						if ( $menu ) {
+							$menu.find('li.active').removeClass('active');
+						}
 						
 						// Return true
 						return true;
@@ -153,7 +155,9 @@
 						var Action = this; var data = this.State.Response.data; var state = this.state; var State = this.State;
 						
 						// Adjust Menu
-						$menu.find('a[href$="'+state+'"]').parent().addClass('active').siblings('.active').removeClass('active');
+						if ( $menu ) {
+							$menu.find('a[href$="'+state+'"]').parent().addClass('active').siblings('.active').removeClass('active');
+						}
 						
 						// Fetch
 						var content = $(data.content).find('#'+contentId).html();
