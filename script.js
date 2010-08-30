@@ -14,16 +14,17 @@
 		
 		// Fetch Elements
 		var $body = $(document.body),
+			menuId = null,
+			$menu = null,
 			contentId = null,
 			$content = null;
 		
 		// Fetch the contentId
-		var contentId = false;
 		while ( !contentId ) {
 			contentId = prompt(
-				"Ajaxy needs to know what is the ID of the Element which contains the content for all your pages.\n"+
+				"Ajaxy needs to know what is the ID of the Element which contains the CONTENT for all your pages.\n"+
 				"\n"+
-				"For example if you have <div id=\"page\">Your page's content is in here</div>, then \'page\' is the ID we need to know.'"
+				"For example if you have <div id=\"content\">Your page's CONTENT is in here.</div>, then \'content\' is the ID we need to know.'"
 			);
 			if ( !contentId ) {
 				break;
@@ -32,10 +33,36 @@
 				// Try to find it
 				$content = findContentWithin($body,contentId);
 				if ( $content.length === 1 ) {
-					alert('We succesfully found that ID! Your website is now ajaxified. :-)');
+					// alert('We succesfully found that ID! Your website is now ajaxified. :-)');
 				}
 				else {
 					$content = null;
+					if ( !confirm('We could not find that ID within your page! Would you like to try again?') ) {
+						return;
+					}
+				}
+			}
+		}
+		
+		// Fetch the menuId
+		while ( !menuId ) {
+			menuId = prompt(
+				"GREAT! Now Ajaxy needs to know what is the ID of the Element which contains the MENU for all your pages.\n"+
+				"\n"+
+				"For example if you have <div id=\"menu\">Your page's MENU is in here</div>, then \'menu\' is the ID we need to know.'\n"+
+				"Note: Your menu must contain LI elements..."
+			);
+			if ( !menuId ) {
+				break;
+			}
+			else {
+				// Try to find it
+				$menu = findContentWithin($body,menuId);
+				if ( $menu.length === 1 ) {
+					alert('WOOHOO! Your website is now ajaxified. :-)');
+				}
+				else {
+					$menu = null;
 					if ( !confirm('We could not find that ID within your page! Would you like to try again?') ) {
 						return;
 					}
@@ -112,12 +139,18 @@
 						// Hide Content
 						$content.stop(true,true).fadeOut(400);
 						
+						// Adjust Menu
+						$menu.find('li.active').removeClass('active');
+						
 						// Return true
 						return true;
 					},
 					response: function(){
 						// Prepare
 						var Action = this; var data = this.State.Response.data; var state = this.state; var State = this.State;
+						
+						// Adjust Menu
+						$menu.find('a[href$="'+state+'"]').parent().addClass('active').siblings('.active').removeClass('active');
 						
 						// Fetch
 						var content = $(data.content).find('#'+contentId).html();
