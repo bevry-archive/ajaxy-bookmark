@@ -25,8 +25,8 @@
 			}
 			else {
 				// Try to find it
-				$content = $(/[#,:]/.test(contentId) ? contentId : ('#'+contentId));
-				if ( $content.length ) {
+				$content = $(/[#,:]/.test(contentId) ? contentId : ('#'+contentId)).filter(':first');
+				if ( $content.length === 1 ) {
 					alert('We succesfully found that ID! Your website is now ajaxified. :-)');
 				}
 				else {
@@ -72,6 +72,16 @@
 						// Return true
 						return true;
 					},
+					refresh: function(){
+						// Prepare
+						var data = this.State.Response.data; var state = this.state||'unknown';
+						
+						// Loaded
+						$body.removeClass('loading');
+						
+						// Done
+						return true;
+					},
 					error: function(){
 						// Prepare
 						var Ajaxy = $.Ajaxy; var data = this.State.Error.data||this.State.Response.data; var state = this.state||'unknown';
@@ -109,25 +119,15 @@
 						
 						// Prepare Content
 						$content.stop(true,true).html(content);
+						// $content.sparkle();
 						
-						// Setup Display Function
-						var displayFunction = function(){
-							$content.delay(100).fadeIn(400,function(){
-								Action.documentReady($content);
+						// Display Content
+						$content.delay(100).fadeIn(400,function(){
+							Action.documentReady($content,{
+								auto_sparkle_documentReady: false,
+								auto_ajaxify_documentReady: false
 							});
-						};
-						
-						// Setup the Scroll Effect
-						if ( !State.anchor ) {
-							$content.parent().ScrollTo({
-								duration:800,
-								easing:'swing',
-								callback: displayFunction
-							});
-						}
-						else {
-							displayFunction();
-						}
+						});
 						
 						// Return true
 						return true;
@@ -149,17 +149,11 @@
 							Action.documentReady($content);
 						};
 						
-						// Setup the Scroll Effect
-						if ( !State.anchor ) {
-							$content.parent().ScrollTo({
-								duration:800,
-								easing:'swing',
-								callback: displayFunction
-							});
-						}
-						else {
-							displayFunction();
-						}
+						// Prepare Content
+						$content.stop(true,true).show();
+						
+						// Display Content
+						Action.documentReady($content);
 						
 						// Return true
 						return true;
