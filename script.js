@@ -7,6 +7,11 @@
 (function(){
 	// Handle
 	var ajaxyReady = function($){
+		// Prepare
+		var findContentWithin = function($el,contentId){
+			return $el.findAndSelf(/[#,:]/.test(contentId) ? contentId : ('#'+contentId)).filter(':first');
+		}
+		
 		// Fetch Elements
 		var $body = $(document.body),
 			contentId = null,
@@ -25,7 +30,7 @@
 			}
 			else {
 				// Try to find it
-				$content = $(/[#,:]/.test(contentId) ? contentId : ('#'+contentId)).filter(':first');
+				$content = findContentWithin($body,contentId);
 				if ( $content.length === 1 ) {
 					alert('We succesfully found that ID! Your website is now ajaxified. :-)');
 				}
