@@ -7,6 +7,11 @@
 (function(){
 	// Handle
 	var ajaxyReady = function($){
+		// Fetch Elements
+		var $body = $(document.body),
+			contentId = null,
+			$content = null;
+		
 		// Fetch the contentId
 		var contentId = false;
 		while ( !contentId ) {
@@ -20,20 +25,18 @@
 			}
 			else {
 				// Try to find it
-				if ( $('#'+contentId).length ) {
+				$content = $(/[#,:]/.test(contentId) ? contentId : ('#'+contentId));
+				if ( $content.length ) {
 					alert('We succesfully found that ID! Your website is now ajaxified. :-)');
 				}
 				else {
+					$content = null;
 					if ( !confirm('We could not find that ID within your page! Would you like to try again?') ) {
 						return;
 					}
 				}
 			}
 		}
-		
-		// Fetch Elements
-		var $body = $(document.body),
-			$content = $('#'+contentId);
 		
 		// Configure Ajaxy
 		$.Ajaxy.configure({
@@ -43,7 +46,8 @@
 				'redirect': false,
 				'relative_as_base': true,
 				'track_all_anchors': true,
-				'track_all_internal_links': true
+				'track_all_internal_links': true,
+				'scrollto_content': true
 			},
 			'Controllers': {
 				'_generic': {
@@ -56,25 +60,32 @@
 					response: function(){
 						// Prepare
 						var Ajaxy = $.Ajaxy; var data = this.State.Response.data; var state = this.state||'unknown';
+						
 						// Title
 						var title = data.title||false; // if we have a title in the response JSON
 						if ( !title && this.state||false ) title = this.state; // if not use the state as the title
 						if ( title ) document.title = title; // if we have a new title use it
+						
 						// Loaded
 						$body.removeClass('loading');
+						
 						// Return true
 						return true;
 					},
 					error: function(){
 						// Prepare
 						var Ajaxy = $.Ajaxy; var data = this.State.Error.data||this.State.Response.data; var state = this.state||'unknown';
+						
 						// Error
 						var error = data.error||data.responseText||false;
 						var error_message = data.content||error;
+						
 						// Log what is happening
 						window.console.error('$.Ajaxy.configure.Controllers._generic.error', [this, arguments], error_message);
+						
 						// Loaded
 						$body.removeClass('loading');
+						
 						// Done
 						return true;
 					}
@@ -85,6 +96,7 @@
 					request: function(){
 						// Hide Content
 						$content.stop(true,true).fadeOut(400);
+						
 						// Return true
 						return true;
 					},
@@ -103,6 +115,38 @@
 							$content.delay(100).fadeIn(400,function(){
 								Action.documentReady($content);
 							});
+						};
+						
+						// Setup the Scroll Effect
+						if ( !State.anchor ) {
+							$content.parent().ScrollTo({
+								duration:800,
+								easing:'swing',
+								callback: displayFunction
+							});
+						}
+						else {
+							displayFunction();
+						}
+						
+						// Return true
+						return true;
+					},
+					refresh: function(){
+						// Prepare
+						var Action = this; var data = this.State.Response.data; var state = this.state; var State = this.State;
+						
+						// Prepare Content
+						$content.stop(true,true);
+						
+						// Check Content
+						if ( $content.is(':visible') ) {
+							$content.css('opacity',0);
+						}
+						
+						// Setup Display Function
+						var displayFunction = function(){
+							Action.documentReady($content);
 						};
 						
 						// Setup the Scroll Effect
