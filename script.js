@@ -119,14 +119,10 @@
 						
 						// Prepare Content
 						$content.stop(true,true).html(content);
-						// $content.sparkle();
 						
 						// Display Content
 						$content.delay(100).fadeIn(400,function(){
-							Action.documentReady($content,{
-								auto_sparkle_documentReady: false,
-								auto_ajaxify_documentReady: false
-							});
+							Action.documentReady($content);
 						});
 						
 						// Return true
