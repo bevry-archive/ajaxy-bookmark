@@ -52,8 +52,7 @@
 			menuId = prompt(
 				"GREAT! Now Ajaxy needs to know what is the ID of the Element which contains the MENU for all your pages.\n"+
 				"\n"+
-				"For example if you have <div id=\"menu\">Your page's MENU is in here</div>, then \'menu\' is the ID we need to know.'\n"+
-				"Note: Your menu must contain LI elements..."
+				"For example if you have <div id=\"menu\">Your page's MENU is in here</div>, then \'menu\' is the ID we need to know.'"
 			);
 			if ( !menuId ) {
 				break;
@@ -144,7 +143,7 @@
 						
 						// Adjust Menu
 						if ( $menu ) {
-							$menu.find('li.active').removeClass('active');
+							$menu.find('.active').removeClass('active');
 						}
 						
 						// Return true
